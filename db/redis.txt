@@ -1,0 +1,47 @@
+# 长链接：'https://example.com/long/url/1'
+# 哈希值：原始序列号的哈希值
+# 短链接：哈希值的 base62 编码
+
+# 短链接映射表，短链接到长链接的映射
+# Hash 数据结构，键为短链接，长链接
+links = {
+    '6PbX': 'https://example.com/long/url/1',
+    'VZYt': 'https://example.com/long/url/2',
+    ...
+}
+
+# 长链接映射表，长链接到短链接的映射
+# Hash 数据结构，键为长链接，值为对应的短链接
+links_reverse = {
+    'https://example.com/long/url/1': '6PbX':,
+    'https://example.com/long/url/2': 'VZYt',
+    ...
+}
+
+# 链接最后访问时间
+# Hash 数据类型，键为短链接，值为时间戳
+last_access = {
+   '6PbX': timestamp,
+   'VZYt': timestamp,
+   ...
+}
+
+# 点击统计，短链接的点击量
+# Hash 数据类型，键为哈希值，值为点击次数
+click_counts = {
+    '6PbX': 12345,
+    'VZYt': 67890,
+    ...
+}
+
+# 序列号池，可用的序列号
+# Set 数据类型，存储预先生成的序列号
+seq_pool = <binary> # 未使用的序列号序列
+
+# 配置项
+# Hash 数据结构，存储各种配置项键值对
+configs = {
+    'hash_secret_key': '95f8awdx1...',
+    'base62_chars': '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ',
+    ...
+}

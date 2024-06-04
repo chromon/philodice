@@ -1,6 +1,6 @@
 package com.philodice.admin.sequence;
 
-import com.philodice.admin.Entity.SequencePoolEntity;
+import com.philodice.admin.Entity.SeqPoolEntity;
 import com.philodice.admin.exception.NotEnoughResourcesException;
 import com.philodice.admin.redis.RedisService;
 import org.slf4j.Logger;
@@ -13,7 +13,7 @@ import java.util.concurrent.*;
  * 序列号池
  */
 @Service
-public class SequencePool {
+public class SeqPool {
 
     private final RedisService redisService;
 
@@ -44,16 +44,16 @@ public class SequencePool {
 
     private final Logger logger;
 
-    public SequencePool(RedisService redisService, SequencePoolEntity sequencePoolEntity) {
+    public SeqPool(RedisService redisService, SeqPoolEntity seqPoolEntity) {
         this.redisService = redisService;
 
-        this.prefix = sequencePoolEntity.getPrefix();
-        this.capacity = sequencePoolEntity.getCapacity();
-        this.threshold = sequencePoolEntity.getThreshold();
-        this.growthFactor = sequencePoolEntity.getGrowthFactor();
-        this.minIncrement = sequencePoolEntity.getMinIncrement();
+        this.prefix = seqPoolEntity.getPrefix();
+        this.capacity = seqPoolEntity.getCapacity();
+        this.threshold = seqPoolEntity.getThreshold();
+        this.growthFactor = seqPoolEntity.getGrowthFactor();
+        this.minIncrement = seqPoolEntity.getMinIncrement();
 
-        logger = LoggerFactory.getLogger(SequencePool.class);
+        logger = LoggerFactory.getLogger(SeqPool.class);
     }
 
     /**
@@ -62,8 +62,7 @@ public class SequencePool {
      */
     public Long initPool() throws InterruptedException {
         if (this.getPoolSize() == 0) {
-//            return this.expandSequence(this.capacity, "init");
-            return this.expandSequence(4000000L, "init");
+            return this.expandSeqPool(this.capacity, "init");
         }
         return 0L;
     }
@@ -74,7 +73,7 @@ public class SequencePool {
      * @param event 扩容事件，包括初始化，扩容等
      * @throws InterruptedException latch.await()
      */
-    private Long expandSequence(Long number, String event) throws InterruptedException {
+    private Long expandSeqPool(Long number, String event) throws InterruptedException {
         long startTime = System.currentTimeMillis();
         logger.info("Sequence pool " + event + " starting.");
 
@@ -83,7 +82,7 @@ public class SequencePool {
         CountDownLatch latch = new CountDownLatch(THREAD_COUNT);
         // 线程池
         ExecutorService executorService = Executors.newFixedThreadPool(THREAD_COUNT);
-        SnowflakeIdGenerator generator = SnowflakeIdGenerator.getInstance();
+        Snowflake generator = Snowflake.getInstance();
 
         for (int i = 0; i < THREAD_COUNT; i++) {
             executorService.execute(() -> {
@@ -131,7 +130,7 @@ public class SequencePool {
             number = this.capacity - this.getPoolSize();
         }
 
-        return this.expandSequence(number, "expand");
+        return this.expandSeqPool(number, "expand");
     }
 
     /**

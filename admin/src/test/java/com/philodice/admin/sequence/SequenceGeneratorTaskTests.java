@@ -28,7 +28,7 @@ public class SequenceGeneratorTaskTests {
 
         LinkedBlockingQueue<String> queue = new LinkedBlockingQueue<>((int) totalIds);
 
-        SnowflakeIdGenerator idGenerator = SnowflakeIdGenerator.getInstance();
+        Snowflake idGenerator = Snowflake.getInstance();
 
         long startTime = System.currentTimeMillis();
 
@@ -62,7 +62,7 @@ public class SequenceGeneratorTaskTests {
         int THREAD_COUNT = Runtime.getRuntime().availableProcessors();
         CountDownLatch latch = new CountDownLatch(THREAD_COUNT);
         ExecutorService executorService = Executors.newFixedThreadPool(THREAD_COUNT);
-        SnowflakeIdGenerator idGenerator = SnowflakeIdGenerator.getInstance();
+        Snowflake idGenerator = Snowflake.getInstance();
 
         String key = "ids";
 

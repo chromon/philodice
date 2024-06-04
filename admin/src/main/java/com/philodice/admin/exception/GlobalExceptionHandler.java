@@ -28,19 +28,19 @@ public class GlobalExceptionHandler {
     }
 
     /**
-     * 处理 SequencePoolInitializeException 异常
+     * 处理 SeqPoolInitializeException 异常
      */
-    @ExceptionHandler(SequencePoolInitializeException.class)
-    public ResponseEntity<ErrorResponse> handleSequencePoolInitialize(SequencePoolInitializeException e) {
+    @ExceptionHandler(SeqPoolInitializeException.class)
+    public ResponseEntity<ErrorResponse> handleSequencePoolInitialize(SeqPoolInitializeException e) {
         ErrorResponse errorResponse = new ErrorResponse(e.getCode(), e.getMessage());
         return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     /**
-     * 处理 SequencePoolExpandException 异常
+     * 处理 SeqPoolExpandException 异常
      */
-    @ExceptionHandler(SequencePoolExpandException.class)
-    public ResponseEntity<ErrorResponse> handleSequencePoolExpand(SequencePoolExpandException e) {
+    @ExceptionHandler(SeqPoolExpandException.class)
+    public ResponseEntity<ErrorResponse> handleSequencePoolExpand(SeqPoolExpandException e) {
         ErrorResponse errorResponse = new ErrorResponse(e.getCode(), e.getMessage());
         return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
     }

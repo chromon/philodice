@@ -6,11 +6,11 @@ import org.springframework.stereotype.Service;
  * 序列号管理对外接口
  */
 @Service
-public class SequenceManager {
+public class SeqPoolManager {
 
-    private final SequencePool pool;
+    private final SeqPool pool;
 
-    public SequenceManager(SequencePool pool) {
+    public SeqPoolManager(SeqPool pool) {
         this.pool = pool;
     }
 
@@ -27,14 +27,6 @@ public class SequenceManager {
      */
     public Long addSequences(Long number) throws InterruptedException {
         return pool.addSequences(number);
-    }
-
-    /**
-     * 从序列号池中弹出一个序列号
-     * @return 序列号
-     */
-    public Long popSequence() {
-        return pool.getSequence();
     }
 
     /**

@@ -6,6 +6,9 @@ import org.springframework.stereotype.Service;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * Redis 工具类
+ */
 @Service
 public class RedisService {
 

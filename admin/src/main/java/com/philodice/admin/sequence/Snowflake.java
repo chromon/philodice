@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 import java.util.concurrent.ThreadLocalRandom;
 
 @Component
-public class SnowflakeIdGenerator {
+public class Snowflake {
     // 开始时间戳 (2022-01-01 00:00:00)
     private static final long TW_EPOCH = 1640995200000L;
     // 机器 id 所占的位数
@@ -32,20 +32,20 @@ public class SnowflakeIdGenerator {
     private long sequence = 0L;
     private long lastTimestamp = -1L;
 
-    private static SnowflakeIdGenerator instance;
+    private static Snowflake instance;
     // 随机生成一个机器 id
     private static final long WORKER_ID = ThreadLocalRandom.current().nextLong(0, MAX_WORKER_ID + 1);
     // 随机生成一个数据中心 id
     private static final long DATA_CENTER_ID = ThreadLocalRandom.current().nextLong(0, MAX_DATA_CENTER_ID + 1);
 
-    private SnowflakeIdGenerator() {
+    private Snowflake() {
         this.workerId = WORKER_ID;
         this.dataCenterId = DATA_CENTER_ID;
     }
 
-    public static synchronized SnowflakeIdGenerator getInstance() {
+    public static synchronized Snowflake getInstance() {
         if (instance == null) {
-            instance = new SnowflakeIdGenerator();
+            instance = new Snowflake();
         }
         return instance;
     }

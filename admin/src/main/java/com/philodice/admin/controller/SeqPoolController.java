@@ -1,8 +1,8 @@
 package com.philodice.admin.controller;
 
-import com.philodice.admin.exception.SequencePoolExpandException;
-import com.philodice.admin.exception.SequencePoolInitializeException;
-import com.philodice.admin.sequence.SequenceManager;
+import com.philodice.admin.exception.SeqPoolExpandException;
+import com.philodice.admin.exception.SeqPoolInitializeException;
+import com.philodice.admin.sequence.SeqPoolManager;
 import com.philodice.common.response.ResponseMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,15 +15,15 @@ import org.springframework.web.bind.annotation.RestController;
  * 序列号池相关 controller
  */
 @RestController
-public class SequencePoolController {
+public class SeqPoolController {
 
-    private final SequenceManager sequenceManager;
+    private final SeqPoolManager seqPoolManager;
 
     private final Logger logger;
 
-    public SequencePoolController(SequenceManager sequenceManager) {
-        this.sequenceManager = sequenceManager;
-        this.logger = LoggerFactory.getLogger(SequencePoolController.class);
+    public SeqPoolController(SeqPoolManager seqPoolManager) {
+        this.seqPoolManager = seqPoolManager;
+        this.logger = LoggerFactory.getLogger(SeqPoolController.class);
     }
 
     /**
@@ -34,10 +34,10 @@ public class SequencePoolController {
     public ResponseMessage<String> initSequencePool() {
         Long number = 0L;
         try {
-            number = sequenceManager.initPool();
+            number = seqPoolManager.initPool();
         } catch (Exception e) {
             logger.error("Initialize sequence pool exception: " + e);
-            throw new SequencePoolInitializeException("Initialize sequence pool exception: " + e);
+            throw new SeqPoolInitializeException("Initialize sequence pool exception: " + e);
         }
 
         if (number == 0) {
@@ -52,12 +52,12 @@ public class SequencePoolController {
      * @return 扩容信息
      */
     @PostMapping("/api/pool/expand")
-    public ResponseMessage<String> expandSequencePool(@RequestParam("number") Long number) {
+    public ResponseMessage<String> expandSeqPool(@RequestParam("number") Long number) {
         try {
-            sequenceManager.addSequences(number);
+            seqPoolManager.addSequences(number);
         } catch (Exception e) {
             logger.error("Expand sequence pool exception: " + e);
-            throw new SequencePoolExpandException("Expand sequence pool exception: " + e);
+            throw new SeqPoolExpandException("Expand sequence pool exception: " + e);
         }
 
         return ResponseMessage.success("序列号池扩容成功，共增加序列号：" + number);
@@ -68,7 +68,7 @@ public class SequencePoolController {
      * @return 序列号池信息
      */
     @GetMapping("/api/pool/status")
-    public ResponseMessage<String> getSequencePoolStatus() {
-        return ResponseMessage.success(sequenceManager.getStatus());
+    public ResponseMessage<String> getSeqPoolStatus() {
+        return ResponseMessage.success(seqPoolManager.getStatus());
     }
 }

@@ -6,18 +6,18 @@ import org.springframework.test.context.TestConstructor;
 
 @SpringBootTest
 @TestConstructor(autowireMode = TestConstructor.AutowireMode.ALL)
-public class SequencePoolTests {
+public class SeqPoolTests {
 
-    private final SequencePool sequencePool;
+    private final SeqPool seqPool;
 
-    public SequencePoolTests(SequencePool sequencePool) {
-        this.sequencePool = sequencePool;
+    public SeqPoolTests(SeqPool seqPool) {
+        this.seqPool = seqPool;
     }
 
     @Test
     public void testInitSequence() {
         try {
-            Long number = sequencePool.initPool();
+            Long number = seqPool.initPool();
             System.out.println(number);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
@@ -27,7 +27,7 @@ public class SequencePoolTests {
     @Test
     public void testAddSequence() {
         try {
-            Long number = sequencePool.addSequences(1000002L);
+            Long number = seqPool.addSequences(1000002L);
             System.out.println(number);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
@@ -36,11 +36,11 @@ public class SequencePoolTests {
 
     @Test
     public void testGetSequence() {
-        System.out.println(sequencePool.getSequence());
+        System.out.println(seqPool.getSequence());
     }
 
     @Test
     public void testGetInfo() {
-        System.out.println(sequencePool.getStatus());
+        System.out.println(seqPool.getStatus());
     }
 }
